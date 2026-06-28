@@ -16,7 +16,7 @@
 <body>
 
     <div id="intro-overlay">
-        <h1 class="anniversary-title">¡Feliz 3er Mes, Nubecita! <i class="bi bi-hearts"></i></h1>
+        <h1 class="anniversary-title">¡Feliz <span id="meses"></span> Mes, Nubecita! <i class="bi bi-hearts"></i></h1>
         <div class="collage-grid">
             <div class="photo-frame" style="--r: -5; animation-delay: 0.1s;"><img src="img/diaFloresAmarillas.jpg" alt="Helados"></div>
             <div class="photo-frame" style="--r: 4; animation-delay: 0.3s;"><img src="img/elDiaQTeConociFlores.jpg" alt="Beso"></div>
@@ -33,7 +33,7 @@
 
     <div class="main-content" id="main-story">
         <header class="hero">
-            <h1>Tres Meses de Puro Amor</h1>
+            <h1 id="tituloHistoria"></h1>
             <div class="stats-container">
                 <p id="contador-principal">Calculando nuestra historia...</p>
                 <div class="detailed-stats">
@@ -49,6 +49,11 @@
                         <span class="label">Años:</span>
                         <span id="stat-años" class="value">0.00</span>
                     </div>
+                </div>
+                <div class="countdown-container">
+                    <p id="contador-aniversario">
+                        ❤️ Calculando próximo mesversario...
+                    </p>
                 </div>
             </div>
         </header>
@@ -350,9 +355,24 @@
                 </div>
             </div>
         </div>
-    </div>
 
+            <section class="love-reasons">
+                <h2>❤️ Razones por las que te amo ❤️</h2>
+
+                <div class="reason-card">
+                    <p id="love-reason">
+                        Presiona el botón para descubrir una razón...
+                    </p>
+
+                    <button onclick="mostrarRazon()">
+                        ✨ Descubrir una razón
+                    </button>
+                </div>
+            </section>
+    </div>
+            
     <audio id="musica-fondo" loop>
+        <source src="music/FAKE LOVE (Rocking Vibe Mix).mp3" type="audio/mpeg">
         <source src="music/Lights.mp3" type="audio/mpeg">
         Tu navegador no soporta el elemento de audio.
     </audio>
