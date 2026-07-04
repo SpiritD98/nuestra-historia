@@ -199,7 +199,7 @@ window.cerrarRazon = function() {
 // Pequeña función para que los corazones salgan sobre el modal y no abajo
 function createHeartInModal() {
     const modal = document.getElementById('modal-razones');
-    if (!modal.classList.contains('modal-activo')) return;
+    if (!modal.classList.contains('activo')) return;
 
     const heart = document.createElement('div');
     heart.classList.add('heart-particle');
@@ -214,6 +214,17 @@ function createHeartInModal() {
     setTimeout(() => { heart.remove(); }, 3000);
 }
 
+// --- NUEVO: LISTA DE REPRODUCCIÓN (PLAYLIST) ---
+const playlist = [
+    "music/FAKE LOVE (Rocking Vibe Mix).mp3",
+    "music/Lights.mp3"
+    // Se agregaran mas canciones Ej:
+    // "music/Dynamite.mp3",
+    // "music/SpringDay.mp3"
+];
+
+let currentSongIndex = 0;
+
 window.startExperience = function() {
     document.getElementById('intro-overlay').classList.add('hidden');
     const main = document.getElementById('main-story');
@@ -222,6 +233,12 @@ window.startExperience = function() {
     
     const audio = document.getElementById('musica-fondo');
     const btnMusica = document.getElementById('btn-musica');
+
+    btnMusica.style.display = 'flex';
+
+    if (!audio.src) {
+        audio.src = playlist[currentSongIndex];
+    }
     
     audio.play().then(() => {
         btnMusica.classList.add('musica-activa');
@@ -296,4 +313,18 @@ window.addEventListener('DOMContentLoaded', () => {
     updateAnniversaryCountdown();
     cargarTimeline();
     setInterval(updateAnniversaryCountdown, 60000);
+
+    // Listener para cambiar de cancion cuando termine la actual
+    const audio = document.getElementById('musica-fondo');
+    audio.addEventListener('ended', () => {
+        currentSongIndex++; // pasamos a la siguiente
+
+        //Si se tocaron todas, se vuelve a la primera
+        if (currentSongIndex >= playlist.length) {
+            currentSongIndex = 0;
+        }
+
+        audio.src = playlist[currentSongIndex];
+        audio.play();
+    })
 });
