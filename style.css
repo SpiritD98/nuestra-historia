@@ -309,50 +309,177 @@ header.hero {
     }
 }
 
-/* --- BOTÓN FLOTANTE DE MÚSICA --- */
+/* --- BOTÓN FLOTANTE DE MÚSICA (ARMY BOMB + TAMAÑO AUMENTADO) --- */
 #btn-musica {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: var(--pink-hot);
-    color: white;
+    background: transparent;
     border: none;
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
-    font-size: 1.5rem;
+    width: 70px; /* ¡Botón más grande! (Antes era 70px) */
+    height: 70px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
-    z-index: 1000; /* Siempre por encima de todo */
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s, background-color 0.3s;
 }
 
-#btn-musica:hover {
+/* EL TRUCO: Un círculo invisible DETRÁS de la Army Bomb. 
+   Así la luz sale de los bordes externos y no entra en los huecos vacíos del PNG */
+#btn-musica::before {
+    content: '';
+    position: absolute;
+    top: 18%; /* Centrado detrás del "globo" principal de la Army Bomb */
+    left: 18%;
+    width: 64%;
+    height: 64%;
+    border-radius: 50%;
+    background-color: transparent; /* Totalmente transparente */
+    z-index: -1; /* Se queda atrás de la imagen */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra base muy suave */
+}
+
+#btn-musica img {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s;
+    /* Ya no usamos drop-shadow aquí para mantener el interior limpio */
+}
+
+#btn-musica:hover img {
     transform: scale(1.1);
-    background-color: var(--purple-dark);
 }
 
-/* Animación de latido cuando la música suena */
-.musica-activa {
-    animation: pulso-musical 2s infinite;
+/* --- ESTADO ACTIVO (MÚSICA REPRODUCIÉNDOSE) --- */
+/* Animamos la imagen para que palpite sutilmente */
+.musica-activa img {
+    animation: bounce-bomb 2s infinite ease-in-out;
 }
 
-@keyframes pulso-musical {
-    0% { box-shadow: 0 0 0 0 rgba(190, 24, 93, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(190, 24, 93, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(190, 24, 93, 0); }
+/* Aplicamos el pulso de colores al círculo trasero */
+.musica-activa::before {
+    animation: concierto-bts 8s infinite;
 }
 
-/* Ajuste para móviles: un poco más pequeño y a la izquierda si prefieres que no tape las fotos */
+@keyframes bounce-bomb {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* Animación: Aura constante + Pulso expansivo que cambia de color cada 2 segundos */
+@keyframes concierto-bts {
+    /* 1. MORADO (Army) */
+    0% { box-shadow: 0 0 15px 5px rgba(112, 26, 117, 0.8), 0 0 0 0 rgba(112, 26, 117, 0.8); }
+    15% { box-shadow: 0 0 15px 5px rgba(112, 26, 117, 0.8), 0 0 0 30px rgba(112, 26, 117, 0); }
+    
+    /* 2. ROSA */
+    25% { box-shadow: 0 0 15px 5px rgba(255, 105, 180, 0.8), 0 0 0 0 rgba(255, 105, 180, 0.8); }
+    40% { box-shadow: 0 0 15px 5px rgba(255, 105, 180, 0.8), 0 0 0 30px rgba(255, 105, 180, 0); }
+    
+    /* 3. CELESTE / AZUL CLARO */
+    50% { box-shadow: 0 0 15px 5px rgba(0, 191, 255, 0.8), 0 0 0 0 rgba(0, 191, 255, 0.8); }
+    65% { box-shadow: 0 0 15px 5px rgba(0, 191, 255, 0.8), 0 0 0 30px rgba(0, 191, 255, 0); }
+    
+    /* 4. AMARILLO SUAVE (Como luz cálida) */
+    75% { box-shadow: 0 0 15px 5px rgba(255, 235, 132, 0.8), 0 0 0 0 rgba(255, 235, 132, 0.8); }
+    90% { box-shadow: 0 0 15px 5px rgba(255, 235, 132, 0.8), 0 0 0 30px rgba(255, 235, 132, 0); }
+    
+    /* 5. VUELTA A MORADO */
+    100% { box-shadow: 0 0 15px 5px rgba(112, 26, 117, 0.8), 0 0 0 0 rgba(112, 26, 117, 0.8); }
+}
+
+/* Ajuste proporcional para pantallas de celulares */
 @media screen and (max-width: 640px) {
     #btn-musica {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
+        width: 60px;
+        height: 60px;
         bottom: 15px;
         right: 15px;
     }
+}
+
+/* --- ESTILOS DEL BOTÓN DE RAZONES --- */
+.btn-razones {
+    background: linear-gradient(45deg, var(--pink-hot), var(--purple-dark));
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
+    transition: transform 0.3s;
+    font-weight: 600;
+}
+.btn-razones:hover {
+    transform: scale(1.05);
+}
+
+.btn-razones-secundario {
+    background: var(--pink-medium);
+    color: var(--purple-dark);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+.btn-razones-secundario:hover {
+    background: var(--purple-medium);
+}
+
+/* --- ESTILOS DE LA VENTANA EMERGENTE (MODAL CORREGIDO) --- */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(112, 26, 117, 0.6); /* Un fondo oscuro basado en tu --purple-dark */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-overlay.activo {
+    display: flex; /* Al activarse, centra todo en la pantalla */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-contenido {
+    background: var(--pink-pastel);
+    padding: 40px 20px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 3px dashed var(--pink-hot);
+}
+
+.razon-texto {
+    font-size: 1.3rem;
+    color: var(--purple-dark);
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.btn-cerrar-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--pink-hot);
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }

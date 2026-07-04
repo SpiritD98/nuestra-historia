@@ -4,7 +4,68 @@ const lightbox = new PhotoSwipeLightbox({
   pswpModule: PhotoSwipe // El módulo principal de PhotoSwipe
 });
 
-lightbox.init();
+async function cargarTimeline() {
+    try {
+        // 1. Llamamos al archivo JSON
+        const respuesta = await fetch('timeline.json');
+        const historias = await respuesta.json();
+        
+        const contenedor = document.getElementById('timeline-container');
+        let htmlCompleto = '';
+
+        // 2. Recorremos cada historia del JSON
+        historias.forEach(item => {
+            
+            // Preparamos el texto (si existe)
+            let textoHtml = item.texto ? `<p>${item.texto}</p>` : '';
+
+            // Preparamos las imágenes (si hay)
+            let imagenesHtml = '';
+            if (item.imagenes && item.imagenes.length > 0) {
+                item.imagenes.forEach(img => {
+                    imagenesHtml += `
+                        <a href="${img.src}" data-pswp-width="${img.width}" data-pswp-height="${img.height}">
+                            <img src="${img.src}" alt="${img.alt}" loading="lazy">
+                        </a>
+                    `;
+                });
+            }
+
+            // Preparamos el GIF del personaje (si existe)
+            let gifHtml = '';
+            if (item.personajeGif) {
+                gifHtml = `
+                    <div class="timeline-character">
+                        <img src="${item.personajeGif.src}" alt="${item.personajeGif.alt}" loading="lazy">
+                    </div>
+                `;
+            }
+
+            // 3. Ensamblamos la tarjeta completa
+            htmlCompleto += `
+                <div class="timeline-item ${item.posicion}">
+                    <div class="content">
+                        <h2>${item.titulo}</h2>
+                        ${textoHtml}
+                        ${imagenesHtml}
+                    </div>
+                    ${gifHtml}
+                </div>
+            `;
+        });
+
+        // 4. Inyectamos todo al HTML
+        contenedor.innerHTML = htmlCompleto;
+
+        // 5. ¡Ahora sí activamos el visor de fotos!
+        lightbox.init();
+
+    } catch (error) {
+        console.error("Error al cargar la historia:", error);
+        document.getElementById('timeline-container').innerHTML = 
+            '<p class="text-center">Hubo un pequeño error recordando nuestra historia, pero mi amor por ti sigue intacto ❤️</p>';
+    }
+}
 
 // Mes dinamico
 const fechaInicio = new Date('2026-02-07');
@@ -15,7 +76,12 @@ let meses =
   (hoy.getFullYear() - fechaInicio.getFullYear()) * 12 +
   (hoy.getMonth() - fechaInicio.getMonth());
 
-document.getElementById("meses").textContent = meses;
+// Si el día de hoy es menor al día 7, restamos 1 mes porque aún no se cumple
+if (hoy.getDate() < fechaInicio){
+    meses--;
+}
+
+document.getElementById("meses-intro").textContent = meses;
 
 const numerosTexto = [
   "",
@@ -107,22 +173,47 @@ const razones = [
 let ultimaRazon = -1;
 
 window.mostrarRazon = function() {
-
     let indice;
-
     do {
-        indice = Math.floor(
-            Math.random() * razones.length
-        );
+        indice = Math.floor(Math.random() * razones.length);
     } while (indice === ultimaRazon);
 
     ultimaRazon = indice;
 
-    document.getElementById("love-reason")
-        .textContent = razones[indice];
+    // Actualiza el texto
+    document.getElementById("love-reason").textContent = razones[indice];
+    
+    document.getElementById("modal-razones").classList.add("activo");
+
+    // Reutilizamos tu función de corazones para que salgan chispas cuando lee una razón
+    for(let i = 0; i < 5; i++) {
+        setTimeout(createHeartInModal, i * 200);
+    }
 }
 
-// Aseguramos que la función sea global adjuntándola a "window"
+// Función para cerrar la ventana
+window.cerrarRazon = function() {
+    document.getElementById("modal-razones").classList.remove("activo");
+}
+
+// Pequeña función para que los corazones salgan sobre el modal y no abajo
+function createHeartInModal() {
+    const modal = document.getElementById('modal-razones');
+    if (!modal.classList.contains('modal-activo')) return;
+
+    const heart = document.createElement('div');
+    heart.classList.add('heart-particle');
+    heart.innerHTML = '<i class="bi bi-heart-fill" style="color:#ff4d6d; z-index: 10000; position:absolute;"></i>'; 
+    
+    // Posición aleatoria dentro de la pantalla
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.top = '100vh';
+    heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    
+    modal.appendChild(heart);
+    setTimeout(() => { heart.remove(); }, 3000);
+}
+
 window.startExperience = function() {
     document.getElementById('intro-overlay').classList.add('hidden');
     const main = document.getElementById('main-story');
@@ -132,24 +223,20 @@ window.startExperience = function() {
     const audio = document.getElementById('musica-fondo');
     const btnMusica = document.getElementById('btn-musica');
     
-    audio.play().catch(error => console.log("Música en espera de interacción")); 
-    
-    btnMusica.innerHTML = '<i class="bi bi-pause-fill"></i>';
-    btnMusica.classList.add('musica-activa');
+    audio.play().then(() => {
+        btnMusica.classList.add('musica-activa');
+    }).catch(error => console.log("Música en espera de interacción")); 
 };
 
-// Aseguramos que la función de pausar sea global
 window.toggleMusica = function() {
     const audio = document.getElementById('musica-fondo');
     const btnMusica = document.getElementById('btn-musica');
 
     if (audio.paused) {
         audio.play();
-        btnMusica.innerHTML = '<i class="bi bi-pause-fill"></i>';
         btnMusica.classList.add('musica-activa');
     } else {
         audio.pause();
-        btnMusica.innerHTML = '<i class="bi bi-play-fill"></i>';
         btnMusica.classList.remove('musica-activa');
     }
 };
@@ -207,7 +294,6 @@ window.addEventListener('DOMContentLoaded', () => {
     setInterval(createHeart, 400);
     updateCounter();
     updateAnniversaryCountdown();
-    mostrarRazon();
+    cargarTimeline();
     setInterval(updateAnniversaryCountdown, 60000);
 });
-
