@@ -328,3 +328,43 @@ window.addEventListener('DOMContentLoaded', () => {
         audio.play();
     })
 });
+
+let floresRecolectadas = 0;
+
+window.recogerFlor = function(elementoImg) {
+    // 1. Ocultamos la flor grande que tocó
+    elementoImg.classList.add("escondido");
+    
+    // 2. Metemos la flor AL CONTENEDOR del ramo
+    const contenedorRamo = document.getElementById("contenedor-flores"); // <--- CAMBIO AQUÍ
+    const nuevaFlor = document.createElement("img");
+    nuevaFlor.src = elementoImg.src; 
+    nuevaFlor.className = "flor-en-ramo"; 
+    contenedorRamo.appendChild(nuevaFlor);
+    
+    floresRecolectadas++;
+    
+    // 3. Si llega a 5, detonamos la magia
+    if (floresRecolectadas === 6) {
+        const mensaje = document.getElementById("mensaje-jardin");
+        mensaje.textContent = "¡Ramo completado! ❤️";
+        
+        const ramoCompleto = document.getElementById("ramo-central");
+        
+        setTimeout(() => {
+            ramoCompleto.classList.add("ramo-explotando");
+            for(let i=0; i<15; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        }, 800); 
+
+        setTimeout(() => {
+            document.getElementById("panel-jardin").classList.add("escondido");
+            document.getElementById("collage-fotos").classList.add("desbloqueado");
+            
+            const btn = document.getElementById("enter-btn");
+            btn.classList.remove("hidden");
+            btn.classList.add("animate__animated", "animate__bounceInUp"); 
+        }, 1800);
+    }
+}

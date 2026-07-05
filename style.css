@@ -483,3 +483,170 @@ header.hero {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
 }
+
+/* --- JARDÍN DE FLORES (JUEGO) --- */
+#jardin-juego {
+    position: relative;
+    width: 100%;
+    height: 200px; /* Espacio donde flotarán las flores */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.flor {
+    font-size: 3rem;
+    cursor: pointer;
+    animation: flotar 3s infinite ease-in-out;
+    transition: transform 0.3s;
+}
+
+.flor:hover { transform: scale(1.3); }
+
+#mensaje-jardin {
+    color: var(--pink-hot);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* Ocultar el botón */
+.enter-btn.hidden { display: none; }
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+
+/* --- ESTILOS DEL JUEGO DEL RAMO V2 (REALISTA) --- */
+#collage-fotos {
+    filter: blur(8px) brightness(0.7); /* Oscurecemos y desenfocamos un poco para que resalte el cristal */
+    transition: filter 1.5s ease;
+}
+#collage-fotos.desbloqueado {
+    filter: blur(0px) brightness(1);
+}
+
+#panel-jardin {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    width: 90%; max-width: 400px;
+    z-index: 1010;
+    transition: opacity 1s, transform 1s;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+}
+
+#mensaje-jardin {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+
+/* --- ESTRUCTURA DEL RAMO --- */
+#ramo-central {
+    position: relative;
+    width: 140px;
+    height: 180px;
+    margin: 0 auto;
+    margin-top: 20px;
+    transition: transform 0.5s;
+}
+
+/* Papel Kraft Rosa (La forma del cono) */
+.envoltorio-atras, .envoltorio-frente {
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 110px;
+    /* Clip-path recorta el div en forma de cono de ramo */
+    clip-path: polygon(0 0, 100% 0, 65% 100%, 35% 100%); 
+    border-radius: 5px;
+}
+.envoltorio-atras {
+    background: var(--pink-medium);
+    z-index: 1; /* Al fondo */
+}
+.envoltorio-frente {
+    background: linear-gradient(135deg, #fbcfe8, #f472b6);
+    z-index: 10; /* Al frente para tapar los tallos */
+    box-shadow: inset 0 -10px 10px rgba(0,0,0,0.1);
+}
+.lazo-ramo {
+    position: absolute;
+    bottom: 20px; left: 50%; transform: translateX(-50%);
+    font-size: 2.5rem;
+    z-index: 15; /* El lazo va hasta adelante */
+}
+
+/* Donde se inyectarán las flores */
+#contenedor-flores {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 5; /* Las flores quedan sándwich entre el frente y el fondo del papel */
+}
+
+/* Ajuste de tamaño y posiciones para las flores que entran al ramo */
+.flor-en-ramo {
+    position: absolute;
+    width: 70px; /* Tamaño ideal dentro del ramo */
+    opacity: 0;
+    animation: aparecerFlor 0.5s forwards ease-out;
+    filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.3));
+}
+/* Posiciones desordenadas para que armen el ramo bonito */
+.flor-en-ramo:nth-child(1) { top: 10px; left: 5px; transform: rotate(-25deg); z-index: 6; }
+.flor-en-ramo:nth-child(2) { top: 5px; right: 5px; transform: rotate(25deg); z-index: 5; }
+.flor-en-ramo:nth-child(3) { top: -20px; left: 35px; transform: rotate(0deg) scale(1.1); z-index: 7; }
+.flor-en-ramo:nth-child(4) { top: 35px; left: -10px; transform: rotate(-40deg); z-index: 8; }
+.flor-en-ramo:nth-child(5) { top: 30px; right: -10px; transform: rotate(40deg); z-index: 8; }
+
+@keyframes aparecerFlor {
+    from { opacity: 0; transform: scale(0) translateY(50px) rotate(0deg); }
+    to { opacity: 1; } /* El To ya hereda la rotación del nth-child */
+}
+
+.ramo-explotando {
+    animation: estallarRamo 1s forwards;
+}
+@keyframes estallarRamo {
+    0% { transform: scale(1); filter: drop-shadow(0 0 0 white); }
+    50% { transform: scale(1.2); filter: drop-shadow(0 0 30px white); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+/* --- LAS FLORES FLOTANTES (AHORA LIBRES EN TODA LA PANTALLA) --- */
+.flor-flotante {
+    position: fixed;
+    width: 90px; /* Tamaño grande mientras flotan */
+    cursor: pointer;
+    z-index: 2000;
+    filter: drop-shadow(0px 5px 8px rgba(0,0,0,0.3));
+    transition: transform 0.3s, opacity 0.3s;
+    animation: flotarSuave 4s infinite alternate ease-in-out;
+}
+.flor-flotante:hover { transform: scale(1.2); }
+
+/* Posiciones repartidas por los rincones de la pantalla de ella */
+.pos-1 { top: 10vh; left: 5vw; }
+.pos-2 { top: 15vh; right: 5vw; animation-delay: 0.5s; }
+.pos-3 { bottom: 15vh; left: 8vw; animation-delay: 1s; }
+.pos-4 { bottom: 10vh; right: 8vw; animation-delay: 1.5s; }
+.pos-5 { top: 50vh; right: 3vw; animation-delay: 2s; }
+.pos-6 { top: 40vh; left: 3vw; animation-delay: 2s; }
+
+
+@keyframes flotarSuave {
+    from { transform: translateY(0px) rotate(-10deg); }
+    to { transform: translateY(-30px) rotate(10deg); }
+}
+
+.escondido { opacity: 0; pointer-events: none; transform: scale(0.5); }

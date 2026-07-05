@@ -16,8 +16,10 @@
 <body>
 
     <div id="intro-overlay">
-        <h1 class="anniversary-title">¡Feliz <span id="meses-intro"></span> Mes, Nubecita! <i class="bi bi-hearts"></i></h1>
-        <div class="collage-grid">
+        <h1 class="anniversary-title" id="titulo-portada">¡Feliz <span id="meses-intro"></span> Mes, Nubecita! <i class="bi bi-hearts"></i></h1>
+        
+        <!-- TU COLLAGE DE FOTOS -->
+        <div class="collage-grid" id="collage-fotos">
             <div class="photo-frame" style="--r: -5; animation-delay: 0.1s;"><img src="img/diaFloresAmarillas.jpg" alt="Helados"></div>
             <div class="photo-frame" style="--r: 4; animation-delay: 0.3s;"><img src="img/elDiaQTeConociFlores.jpg" alt="Beso"></div>
             <div class="photo-frame" style="--r: -3; animation-delay: 0.5s;"><img src="img/elAnilloYRamoNovios.jpg" alt="Manos"></div>
@@ -26,7 +28,29 @@
             <div class="photo-frame" style="--r: 2; animation-delay: 1.1s;"><img src="img/ramoSegundoMV.jpg" alt="Corazón"></div>
         </div>
 
-        <button class="enter-btn" onclick="startExperience()">
+        <!-- EL PANEL DE CRISTAL -->
+        <div id="panel-jardin">
+            <p id="mensaje-jardin">Arma tu ramo para desbloquear nuestros recuerdos ✨</p>
+            
+            <!-- ESTRUCTURA DEL RAMO REAL -->
+            <div id="ramo-central">
+                <div class="envoltorio-atras"></div> <!-- Papel de fondo -->
+                <div id="contenedor-flores"></div> <!-- Las flores se inyectarán aquí en medio -->
+                <div class="envoltorio-frente"></div> <!-- Papel de frente que cubre los tallos -->
+                <div class="lazo-ramo">🎀</div> <!-- Lazo decorativo -->
+            </div>
+        </div>
+
+        <!-- LAS FLORES FLOTANTES (Ahora libres por toda la pantalla) -->
+        <img src="img/tulipanMorado.png" class="flor-flotante pos-1" onclick="recogerFlor(this)" alt="Tulipán">
+        <img src="img/lirioRosado.avif" class="flor-flotante pos-2" onclick="recogerFlor(this)" alt="Lirio">
+        <img src="img/astromeliaNaranja.png" class="flor-flotante pos-3" onclick="recogerFlor(this)" alt="Astromelia">
+        <img src="img/rosaBlanca.png" class="flor-flotante pos-4" onclick="recogerFlor(this)" alt="Rosa Blanca">
+        <img src="img/rosaRosada.png" class="flor-flotante pos-5" onclick="recogerFlor(this)" alt="Rosa Rosada">
+        <img src="img/lirioRosado.avif" class="flor-flotante pos-6" onclick="recogerFlor(this)" alt="Lirio">
+
+        <!-- EL BOTÓN (Oculto) -->
+        <button class="enter-btn hidden" id="enter-btn" onclick="startExperience()">
             Nuestra Historia <i class="bi bi-heart-fill"></i>
         </button>
     </div>
