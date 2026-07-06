@@ -12,7 +12,7 @@ body { font-family: 'Poppins', sans-serif; background-color: var(--pink-pastel);
 
 /* --- PANTALLA DE INICIO (COLLAGE) --- */
 #intro-overlay {
-    position: fixed;
+    position: relative;
     inset: 0;
     background: linear-gradient(135deg, var(--pink-medium), var(--purple-medium));
     z-index: 1000;
@@ -22,6 +22,9 @@ body { font-family: 'Poppins', sans-serif; background-color: var(--pink-pastel);
     justify-content: center;
     transition: opacity 0.8s ease, visibility 0.8s;
     padding: 20px;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
 #intro-overlay.hidden { opacity: 0; visibility: hidden; }
@@ -78,6 +81,9 @@ body { font-family: 'Poppins', sans-serif; background-color: var(--pink-pastel);
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-content: center;
+    margin: 20px auto 0 auto !important;
+    width: max-content;
 }
 
 .enter-btn:hover { background-color: var(--purple-dark); transform: scale(1.05); }
@@ -484,169 +490,200 @@ header.hero {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* --- JARDÍN DE FLORES (JUEGO) --- */
-#jardin-juego {
-    position: relative;
-    width: 100%;
-    height: 200px; /* Espacio donde flotarán las flores */
+/* --- FONDO BORROSO (Agrupa título original y fotos) --- */
+.bloque-borroso {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
-}
-
-.flor {
-    font-size: 3rem;
-    cursor: pointer;
-    animation: flotar 3s infinite ease-in-out;
-    transition: transform 0.3s;
-}
-
-.flor:hover { transform: scale(1.3); }
-
-#mensaje-jardin {
-    color: var(--pink-hot);
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-/* Ocultar el botón */
-.enter-btn.hidden { display: none; }
-
-@keyframes flotar {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-
-/* --- ESTILOS DEL JUEGO DEL RAMO V2 (REALISTA) --- */
-#collage-fotos {
-    filter: blur(8px) brightness(0.7); /* Oscurecemos y desenfocamos un poco para que resalte el cristal */
+    justify-content: center;
+    filter: blur(12px) brightness(0.5); /* Título y fotos borrosos */
     transition: filter 1.5s ease;
+    z-index: 1;
 }
-#collage-fotos.desbloqueado {
+
+.bloque-borroso.desbloqueado {
     filter: blur(0px) brightness(1);
 }
 
-#panel-jardin {
+/* Quitamos filtros antiguos al collage directo */
+#collage-fotos { filter: none; transition: none; }
+
+/* --- CONTENEDOR PRINCIPAL DEL JUEGO --- */
+#juego-flores-container {
     position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    width: 90%; max-width: 400px;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100vh; /* Ocupa TODA la pantalla */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Esto es clave: empuja el teclado hacia el centro */
     z-index: 1010;
-    transition: opacity 1s, transform 1s;
-    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
 }
 
-#mensaje-jardin {
+/* --- NUEVOS TÍTULOS DEL JUEGO --- */
+#titulo-juego {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2rem, 6vw, 2.8rem);
     color: white;
-    font-size: 1.2rem;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#instruccion-teclado {
+    color: var(--pink-medium); /* Un rosa clarito para que resalte */
+    font-size: 1.1rem;
     font-weight: 600;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* --- EL RAMO (MÁS GRANDE) --- */
+#ramo-creativo {
+    position: relative;
+    width: 280px;  /* ¡Mucho más grande! (Antes era 200px) */
+    height: 330px; /* ¡Mucho más alto! (Antes era 250px) */
+    margin-bottom: 30px; /* Separación del teclado */
+    z-index: 10;
+}
+
+#papel-envoltorio {
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%;
+    z-index: 5;
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.4));
+}
+
+#flores-generadas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+}
+
+/* --- TAMAÑO DE LAS FLORES (Ajustado al nuevo ramo) --- */
+.flor-teclado {
+    position: absolute;
+    bottom: 170px; /* Las subimos un poquito más */
+    left: 50%;
+    width: 110px; /* Flores más grandes para el nuevo ramo */
+    margin-left: -55px;
+    transform-origin: bottom center;
+    opacity: 0;
+    filter: drop-shadow(0px 4px 5px rgba(0,0,0,0.2));
+    transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+/* --- CORRECCIÓN: OCULTAR ELEMENTOS --- */
+.hidden {
+    display: none !important;
+}
+
+/* --- EL TECLADO VIRTUAL (Arreglado) --- */
+#teclado-virtual {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 10px;
+    width: 95%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: opacity 0.5s, transform 0.5s;
+    /* Empuja el teclado hacia abajo */
+    margin-top: auto; 
     margin-bottom: 20px;
 }
 
-/* --- ESTRUCTURA DEL RAMO --- */
-#ramo-central {
-    position: relative;
-    width: 140px;
-    height: 180px;
-    margin: 0 auto;
-    margin-top: 20px;
-    transition: transform 0.5s;
+.fila-teclado {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
 }
 
-/* Papel Kraft Rosa (La forma del cono) */
-.envoltorio-atras, .envoltorio-frente {
-    position: absolute;
-    bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100px; height: 110px;
-    /* Clip-path recorta el div en forma de cono de ramo */
-    clip-path: polygon(0 0, 100% 0, 65% 100%, 35% 100%); 
-    border-radius: 5px;
-}
-.envoltorio-atras {
-    background: var(--pink-medium);
-    z-index: 1; /* Al fondo */
-}
-.envoltorio-frente {
-    background: linear-gradient(135deg, #fbcfe8, #f472b6);
-    z-index: 10; /* Al frente para tapar los tallos */
-    box-shadow: inset 0 -10px 10px rgba(0,0,0,0.1);
-}
-.lazo-ramo {
-    position: absolute;
-    bottom: 20px; left: 50%; transform: translateX(-50%);
-    font-size: 2.5rem;
-    z-index: 15; /* El lazo va hasta adelante */
-}
-
-/* Donde se inyectarán las flores */
-#contenedor-flores {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 5; /* Las flores quedan sándwich entre el frente y el fondo del papel */
-}
-
-/* Ajuste de tamaño y posiciones para las flores que entran al ramo */
-.flor-en-ramo {
-    position: absolute;
-    width: 70px; /* Tamaño ideal dentro del ramo */
-    opacity: 0;
-    animation: aparecerFlor 0.5s forwards ease-out;
-    filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.3));
-}
-/* Posiciones desordenadas para que armen el ramo bonito */
-.flor-en-ramo:nth-child(1) { top: 10px; left: 5px; transform: rotate(-25deg); z-index: 6; }
-.flor-en-ramo:nth-child(2) { top: 5px; right: 5px; transform: rotate(25deg); z-index: 5; }
-.flor-en-ramo:nth-child(3) { top: -20px; left: 35px; transform: rotate(0deg) scale(1.1); z-index: 7; }
-.flor-en-ramo:nth-child(4) { top: 35px; left: -10px; transform: rotate(-40deg); z-index: 8; }
-.flor-en-ramo:nth-child(5) { top: 30px; right: -10px; transform: rotate(40deg); z-index: 8; }
-
-@keyframes aparecerFlor {
-    from { opacity: 0; transform: scale(0) translateY(50px) rotate(0deg); }
-    to { opacity: 1; } /* El To ya hereda la rotación del nth-child */
-}
-
-.ramo-explotando {
-    animation: estallarRamo 1s forwards;
-}
-@keyframes estallarRamo {
-    0% { transform: scale(1); filter: drop-shadow(0 0 0 white); }
-    50% { transform: scale(1.2); filter: drop-shadow(0 0 30px white); }
-    100% { transform: scale(0); opacity: 0; }
-}
-
-/* --- LAS FLORES FLOTANTES (AHORA LIBRES EN TODA LA PANTALLA) --- */
-.flor-flotante {
-    position: fixed;
-    width: 90px; /* Tamaño grande mientras flotan */
+.tecla {
+    background: var(--pink-pastel);
+    color: var(--purple-dark);
+    border: 1px solid var(--pink-medium);
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 12px 0; /* Más altas para celular */
+    flex: 1; /* Crecen proporcionalmente */
     cursor: pointer;
-    z-index: 2000;
-    filter: drop-shadow(0px 5px 8px rgba(0,0,0,0.3));
-    transition: transform 0.3s, opacity 0.3s;
-    animation: flotarSuave 4s infinite alternate ease-in-out;
-}
-.flor-flotante:hover { transform: scale(1.2); }
-
-/* Posiciones repartidas por los rincones de la pantalla de ella */
-.pos-1 { top: 10vh; left: 5vw; }
-.pos-2 { top: 15vh; right: 5vw; animation-delay: 0.5s; }
-.pos-3 { bottom: 15vh; left: 8vw; animation-delay: 1s; }
-.pos-4 { bottom: 10vh; right: 8vw; animation-delay: 1.5s; }
-.pos-5 { top: 50vh; right: 3vw; animation-delay: 2s; }
-.pos-6 { top: 40vh; left: 3vw; animation-delay: 2s; }
-
-
-@keyframes flotarSuave {
-    from { transform: translateY(0px) rotate(-10deg); }
-    to { transform: translateY(-30px) rotate(10deg); }
+    box-shadow: 0 4px 0 var(--pink-medium);
+    transition: transform 0.1s, box-shadow 0.1s;
 }
 
-.escondido { opacity: 0; pointer-events: none; transform: scale(0.5); }
+/* Teclas de borrar y OK un poco más anchas */
+.tecla-accion, .tecla-ok { flex: 1.5; }
+.tecla-accion { background: #cbd5e1; border-color: #94a3b8; box-shadow: 0 4px 0 #94a3b8; }
+.tecla-ok { background: var(--pink-hot); color: white; border-color: var(--purple-dark); box-shadow: 0 4px 0 var(--purple-dark); }
+
+.tecla:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--pink-medium);
+}
+
+/* --- LA CARTA QUE SUBIRÁ (Arreglada) --- */
+#carta-secreta {
+    position: absolute;
+    bottom: -400px; /* Empieza totalmente escondida fuera de la pantalla */
+    width: 85%;
+    max-width: 350px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    padding: 30px 20px;
+    z-index: 20; /* Pasa por delante del ramo para que se lea bien */
+    opacity: 0;
+    transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Animación cuando presionen OK */
+#carta-secreta.revelada {
+    bottom: 50%;
+    transform: translateY(50%); /* La centra verticalmente perfecta */
+    opacity: 1;
+}
+
+.lineas-papel {
+    width: 100%;
+    min-height: 150px;
+    background: repeating-linear-gradient(white, white 28px, var(--pink-medium) 29px, var(--pink-medium) 30px);
+    margin-bottom: 20px;
+}
+
+#texto-maquina {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2rem;
+    color: var(--purple-dark);
+    line-height: 30px;
+    padding-top: 2px;
+}
+
+/* Transiciones suaves para ocultar el teclado */
+#titulo-juego, #instruccion-teclado {
+    transition: opacity 0.5s;
+}
+
+/* --- 2. EL TEXTO QUE ELLA ESCRIBE --- */
+#display-palabra {
+    height: 40px;
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    letter-spacing: 8px;
+    color: var(--pink-hot);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    transition: color 0.3s, transform 0.1s;
+}

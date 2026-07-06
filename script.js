@@ -226,23 +226,42 @@ const playlist = [
 let currentSongIndex = 0;
 
 window.startExperience = function() {
-    document.getElementById('intro-overlay').classList.add('hidden');
+    // 1. Desvanecemos la carta y el ramo (El contenedor del juego)
+    const juegoContainer = document.getElementById('juego-flores-container');
+    juegoContainer.style.transition = 'opacity 1s ease';
+    juegoContainer.style.opacity = '0';
+    
+    setTimeout(() => {
+        juegoContainer.style.display = 'none';
+    }, 1000);
+    
+    // 2. Revelamos tus fotos (Quitamos lo borroso)
+    document.getElementById('fondo-borroso').classList.add('desbloqueado');
+    
+    // 3. Preparamos el timeline y la música
     const main = document.getElementById('main-story');
     main.classList.add('visible');
-    window.scrollTo(0, 0);
     
     const audio = document.getElementById('musica-fondo');
     const btnMusica = document.getElementById('btn-musica');
-
     btnMusica.style.display = 'flex';
 
-    if (!audio.src) {
+    if (!audio.src || audio.src === window.location.href) {
         audio.src = playlist[currentSongIndex];
     }
     
     audio.play().then(() => {
         btnMusica.classList.add('musica-activa');
-    }).catch(error => console.log("Música en espera de interacción")); 
+    }).catch(error => console.log("Música en espera")); 
+
+    // 4. El toque mágico: Esperamos 2.5 segundos para que aprecie el collage...
+    // ...y luego deslizamos la pantalla hacia abajo suavemente
+    setTimeout(() => {
+        window.scrollTo({
+            top: window.innerHeight, // Hace scroll exactamente una pantalla hacia abajo
+            behavior: 'smooth'
+        });
+    }, 2500);
 };
 
 window.toggleMusica = function() {
@@ -329,42 +348,151 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 });
 
-let floresRecolectadas = 0;
+// --- LÓGICA DEL TECLADO DE FLORES ---
 
-window.recogerFlor = function(elementoImg) {
-    // 1. Ocultamos la flor grande que tocó
-    elementoImg.classList.add("escondido");
-    
-    // 2. Metemos la flor AL CONTENEDOR del ramo
-    const contenedorRamo = document.getElementById("contenedor-flores"); // <--- CAMBIO AQUÍ
-    const nuevaFlor = document.createElement("img");
-    nuevaFlor.src = elementoImg.src; 
-    nuevaFlor.className = "flor-en-ramo"; 
-    contenedorRamo.appendChild(nuevaFlor);
-    
-    floresRecolectadas++;
-    
-    // 3. Si llega a 5, detonamos la magia
-    if (floresRecolectadas === 6) {
-        const mensaje = document.getElementById("mensaje-jardin");
-        mensaje.textContent = "¡Ramo completado! ❤️";
-        
-        const ramoCompleto = document.getElementById("ramo-central");
-        
-        setTimeout(() => {
-            ramoCompleto.classList.add("ramo-explotando");
-            for(let i=0; i<15; i++) {
-                setTimeout(createHeart, i * 100);
-            }
-        }, 800); 
+// 1. Tu diccionario de recursos (Asegúrate de tener estas imágenes en tu carpeta img/)
+const catalogoFlores = [
+    'img/tulipanMorado.png',      // 0
+    'img/lirioRosado.AVIF',        // 1
+    'img/tulipanMorado.png',   // 2
+    'img/tulipanMorado.png',  // 3
+    'img/tulipanMorado.png'     // 4
+];
 
-        setTimeout(() => {
-            document.getElementById("panel-jardin").classList.add("escondido");
-            document.getElementById("collage-fotos").classList.add("desbloqueado");
-            
-            const btn = document.getElementById("enter-btn");
-            btn.classList.remove("hidden");
-            btn.classList.add("animate__animated", "animate__bounceInUp"); 
-        }, 1800);
+let floresEnRamo = []; // Aquí guardaremos el historial para poder borrar
+const CLAVE_SECRETA = "NUBECITA";
+let palabraEscrita = "";
+const MAX_FLORES = CLAVE_SECRETA.length; // Límite para que el ramo no explote
+
+// Función matemática para que una letra siempre dé la misma flor
+function obtenerFlorPorLetra(letra) {
+    // Convierte la letra (ej. 'A') a un número y lo divide entre la cantidad de flores que tienes
+    const indice = letra.charCodeAt(0) % catalogoFlores.length;
+    return catalogoFlores[indice];
+}
+
+window.presionarTecla = function(letra) {
+    if (floresEnRamo.length >= MAX_FLORES) {
+        return; 
     }
+
+    palabraEscrita += letra;
+    document.getElementById('display-palabra').textContent = palabraEscrita;
+
+    const contenedor = document.getElementById('flores-generadas');
+    const rutaImagen = obtenerFlorPorLetra(letra);
+
+    // 1. Crear la imagen de la flor
+    const nuevaFlor = document.createElement('img');
+    nuevaFlor.src = rutaImagen;
+    nuevaFlor.className = 'flor-teclado';
+    
+    // Posición inicial oculta y pequeña
+    nuevaFlor.style.transform = `translate(0px, 40px) scale(0) rotate(0deg)`;
+    
+    // La inyectamos en el HTML
+    contenedor.appendChild(nuevaFlor);
+    floresEnRamo.push(nuevaFlor); // Guardamos en el historial
+
+    // 2. Matemáticas para el desorden orgánico del ramo
+    // (Math.random() - 0.5) genera números positivos y negativos
+    const offsetX = (Math.random() - 0.5) * 120;  // Se mueve entre -40px y 40px a los lados
+    const rotacion = (Math.random() - 0.5) * 60; // Rota entre -25 y 25 grados
+    const offsetY = (Math.random() * -60);       // Sube aleatoriamente hasta 30px
+
+    // 3. Forzamos al navegador a leer el CSS para que la transición funcione
+    nuevaFlor.getBoundingClientRect(); 
+
+    // 4. Aplicamos la posición final (Brotar)
+    nuevaFlor.style.opacity = "1";
+    nuevaFlor.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1) rotate(${rotacion}deg)`;
+};
+
+window.borrarLetra = function() {
+    if (floresEnRamo.length > 0) {
+
+        palabraEscrita = palabraEscrita.slice(0, -1);
+        document.getElementById('display-palabra').textContent = palabraEscrita;
+
+        // Sacamos la última flor del historial
+        const ultimaFlor = floresEnRamo.pop();
+        
+        // Hacemos que se encoja antes de morir
+        ultimaFlor.style.opacity = "0";
+        ultimaFlor.style.transform = `translate(0px, 40px) scale(0) rotate(0deg)`;
+        
+        // La eliminamos del HTML después de la animación
+        setTimeout(() => {
+            ultimaFlor.remove();
+        }, 300);
+    }
+};
+
+window.confirmarRamo = function() {
+    // 1. VALIDACIÓN DE LA CONTRASEÑA
+    if (palabraEscrita !== CLAVE_SECRETA) {
+        const display = document.getElementById('display-palabra');
+        display.style.color = "red";
+
+        // Animación de temblor indicando error
+        display.style.transform = "translateX(-10px)";
+        setTimeout(() => display.style.transform = "translateX(10px)", 100);
+        setTimeout(() => display.style.transform = "translateX(-10px)", 200);
+        setTimeout(() => {
+            display.style.transform = "translateX(0)";
+            display.style.color = "var(--pink-hot)";
+        }, 300);
+
+        return; // Detiene la ejecución si se equivoca
+    }
+
+    // 2. Si es correcto, ocultar el juego
+    document.getElementById('teclado-virtual').style.opacity = '0';
+    document.getElementById('teclado-virtual').style.pointerEvents = 'none';
+    document.getElementById('titulo-juego').style.opacity = '0';
+    document.getElementById('instruccion-teclado').style.opacity = '0';
+    document.getElementById('display-palabra').style.opacity = '0';
+
+    // Hacer que la carta suba después de casi un segundo
+    setTimeout(() => {
+        const carta = document.getElementById('carta-secreta');
+        carta.classList.add('revelada');
+        
+        // Empezar a escribir el mensaje
+        escribirCarta();
+    }, 800);
+};
+
+function escribirCarta() {
+    // Puedes personalizar este mensaje como quieras. 
+    // Usamos \n para los saltos de línea.
+    const mensaje = "Como cada flor es única, así de única eres tú para mí.\n\nEste ramo lleva tu apodo, porque tú haces florecer mi vida todos los días.\n\nTe amo muchísimo ❤️";
+    
+    const elementoTexto = document.getElementById('texto-maquina');
+    elementoTexto.innerHTML = ''; 
+    let i = 0;
+
+    const intervalo = setInterval(() => {
+        if (i < mensaje.length) {
+            // Manejar los saltos de línea para inyectar <br> en HTML
+            if (mensaje.charAt(i) === '\n') {
+                elementoTexto.innerHTML += '<br>';
+            } else {
+                elementoTexto.innerHTML += mensaje.charAt(i);
+            }
+            i++;
+        } else {
+            // Terminó de escribir
+            clearInterval(intervalo);
+            
+            // 4. Mostrar el botón rojo para ir a la historia
+            setTimeout(() => {
+                const btn = document.getElementById('enter-btn');
+                btn.classList.remove('hidden');
+                btn.classList.add('animate__animated', 'animate__fadeInUp'); // Opcional si usas animate.css
+                
+                // Desaparecemos todo el juego al dar clic (Ya lo hace tu startExperience)
+            }, 500); // Espera medio segundo tras terminar de escribir
+        }
+    }, 60); // 60ms por letra. (Hazlo más pequeño si quieres que escriba más rápido)
 }
