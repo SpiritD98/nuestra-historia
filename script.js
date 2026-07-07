@@ -68,7 +68,7 @@ async function cargarTimeline() {
 }
 
 // Mes dinamico
-const fechaInicio = new Date('2026-02-07');
+const fechaInicio = new Date('2026-02-07T00:00:00');
 
 const hoy = new Date();
 
@@ -77,7 +77,7 @@ let meses =
   (hoy.getMonth() - fechaInicio.getMonth());
 
 // Si el día de hoy es menor al día 7, restamos 1 mes porque aún no se cumple
-if (hoy.getDate() < fechaInicio){
+if (hoy.getDate() < fechaInicio.getDate()){
     meses--;
 }
 
@@ -352,17 +352,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // 1. Tu diccionario de recursos (Asegúrate de tener estas imágenes en tu carpeta img/)
 const catalogoFlores = [
-    'img/tulipanMorado.png',      // 0
-    'img/lirioRosado.AVIF',        // 1
-    'img/tulipanMorado.png',   // 2
-    'img/tulipanMorado.png',  // 3
-    'img/tulipanMorado.png'     // 4
+    'img/tulipanMorado.png',
+    'img/girasol.png',      // 0
+    'img/lirioRosado.png',        // 1
+    'img/astromeliaNaranja.png',   // 2
+    'img/rosaBlanca.png',  // 3
+    'img/rosaRosada.png'
 ];
 
 let floresEnRamo = []; // Aquí guardaremos el historial para poder borrar
 const CLAVE_SECRETA = "NUBECITA";
 let palabraEscrita = "";
-const MAX_FLORES = CLAVE_SECRETA.length; // Límite para que el ramo no explote
+const MAX_FLORES = 20; // Límite para que el ramo no explote
 
 // Función matemática para que una letra siempre dé la misma flor
 function obtenerFlorPorLetra(letra) {
@@ -396,9 +397,9 @@ window.presionarTecla = function(letra) {
 
     // 2. Matemáticas para el desorden orgánico del ramo
     // (Math.random() - 0.5) genera números positivos y negativos
-    const offsetX = (Math.random() - 0.5) * 120;  // Se mueve entre -40px y 40px a los lados
-    const rotacion = (Math.random() - 0.5) * 60; // Rota entre -25 y 25 grados
-    const offsetY = (Math.random() * -60);       // Sube aleatoriamente hasta 30px
+    const offsetX = (Math.random() - 0.5) * 70;  // Se mueve entre -40px y 40px a los lados
+    const rotacion = (offsetX * 0.6) + ((Math.random() - 0.5) * 20); // Rota entre -25 y 25 grados
+    const offsetY = (Math.random() * -45);       // Sube aleatoriamente hasta 30px
 
     // 3. Forzamos al navegador a leer el CSS para que la transición funcione
     nuevaFlor.getBoundingClientRect(); 

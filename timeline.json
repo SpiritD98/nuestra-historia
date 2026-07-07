@@ -355,7 +355,7 @@
   {
     "id": 18,
     "posicion": "right",
-    "titulo": "y hoy 3 meses!☁️",
+    "titulo": "3 meses!☁️",
     "texto": "Y ya son 3 meses juntos, amor. Espero de verdad que te haya gustado todo lo que hice para ti; este pequeño recuento de tantos momentos bonitos que hemos vivido en tan poco tiempo. Gracias por cada risa, cada abrazo, cada salida improvisada y cada momento a tu lado. Gracias por existir y por dejarme amar a una persona tan maravillosa como tú. Te amo muchísimo, mi niña, mi nubecita, mi princesita hermosa, mi algodoncito de azúcar. Y sinceramente… quiero seguir creando recuerdos contigo por muchísimo tiempo más.",
     "imagenes": [
       {
@@ -367,6 +367,42 @@
     ],
     "personajeGif": {
       "src": "img/cinnamoGrax.gif",
+      "alt": "Cinnamoroll"
+    }
+  },
+  {
+    "id": 17,
+    "posicion": "left",
+    "titulo": "¡4 meses juntos! 🤍",
+    "texto": "Y ya son 4 meses juntos, mi amor. Curiosamente, estos meses se sintieron más largos que los primeros, quizá porque ya no podemos vernos tan seguido. Pero eso solo hace que cada vez que estamos juntos la disfrute muchísimo más. Algo que amo es seguir llenando esta página con cada una de nuestras salidas, nuestros viajes, nuestras risas y todos esos pequeños momentos que, contigo, terminan convirtiéndose en recuerdos inolvidables. Espero que esta historia siga creciendo por muchísimo tiempo más, porque mi lugar favorito siempre será a tu lado. ☁️",
+    "imagenes": [
+      {
+        "src": "img/pinMangInge.png",
+        "width": "1149",
+        "height": "1369",
+        "alt": "Hoy"
+      }
+    ],
+    "personajeGif": {
+      "src": "img/MangArmyBomb.png",
+      "alt": "Mang BT21"
+    }
+  },
+  {
+    "id": 18,
+    "posicion": "right",
+    "titulo": "Y hoy, finalmente… ¡5 meses a tu lado! ☁️🤍",
+    "texto": "Cómo pasan los meses… los días y las horas a tu lado siempre se van demasiado rápido. Amo verte, tenerte conmigo, acompañarte y estar para ti en cada momento que la vida nos regala. Hemos tenido días muy bonitos y otros un poco más difíciles, y sé que seguramente no será la última vez. Pero también sé que siempre encontraremos la manera de entendernos, mejorar y seguir adelante, porque te amo de verdad. Hoy no puedo imaginar mi vida sin ti, sin escucharte, sin abrazarte, sin viajar contigo y sin seguir creando recuerdos juntos. Moche, Lima, Ica, Virú… cada lugar ha sido especial, no por el destino, sino porque tú estabas ahí. Y estoy seguro de que, sin importar si vienen momentos buenos, malos o maravillosos, mientras estemos juntos siempre encontraremos la forma de hacerlos inolvidables. Te amo con todo mi corazón, mi niña. Y sí… esto era lo que estuve haciendo durante todo el fin de semana y por lo que andaba tan ocupado. Espero que cada detalle te recuerde lo inmensamente feliz que soy de compartir mi vida contigo.",
+    "imagenes": [
+      {
+        "src": "img/BrenDanIA.jpeg",
+        "width": "1103",
+        "height": "1426",
+        "alt": "Juntos"
+      }
+    ],
+    "personajeGif": {
+      "src": "img/cinnamorollFelicidades.png",
       "alt": "Cinnamoroll"
     }
   },

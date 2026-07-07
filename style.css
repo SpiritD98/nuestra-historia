@@ -551,26 +551,37 @@ header.hero {
     z-index: 10;
 }
 
-#papel-envoltorio {
+/* 1. Capa de Atrás */
+#papel-atras {
     position: absolute;
     bottom: 0; left: 50%; transform: translateX(-50%);
     width: 100%;
-    z-index: 5;
-    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.4));
+    z-index: 1; /* Al fondo */
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.4)); /* La sombra va solo en el de atrás */
 }
 
+/* 2. Capa de las Flores */
 #flores-generadas {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 2;
+    z-index: 2; /* En el medio (El relleno del sándwich) */
+}
+
+/* 3. Capa del Frente */
+#papel-frente {
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%;
+    z-index: 3; /* Al frente, cubriendo los tallos */
+    /* No le ponemos drop-shadow aquí para que no cree una sombra irreal sobre las flores */
 }
 
 /* --- TAMAÑO DE LAS FLORES (Ajustado al nuevo ramo) --- */
 .flor-teclado {
     position: absolute;
-    bottom: 170px; /* Las subimos un poquito más */
+    bottom: 70px; /* Las subimos un poquito más */
     left: 50%;
-    width: 110px; /* Flores más grandes para el nuevo ramo */
+    width: 130px; /* Flores más grandes para el nuevo ramo */
     margin-left: -55px;
     transform-origin: bottom center;
     opacity: 0;
