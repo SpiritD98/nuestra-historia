@@ -497,3 +497,45 @@ function escribirCarta() {
         }
     }, 60); // 60ms por letra. (Hazlo más pequeño si quieres que escriba más rápido)
 }
+
+// --- TRANSICIÓN A LA TEMPORADA 2 ---
+window.transicionMedioAno = function() {
+    // 1. Mostrar la pantalla de fondo oscuro
+    const pantalla = document.getElementById('pantalla-transicion');
+    pantalla.classList.add('activa');
+
+    // 2. Generar la ráfaga de pétalos
+    const contenedorPetalos = document.getElementById('lluvia-petalos');
+    
+    // Creamos 60 pétalos para una lluvia tupida
+    for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+            const petalo = document.createElement('div');
+            petalo.classList.add('petalo-cae');
+            
+            // 50% de probabilidad de que sea rojo o morado
+            if (Math.random() > 0.5) {
+                petalo.classList.add('morado');
+            }
+
+            // Posicionamiento horizontal aleatorio a lo ancho de la pantalla
+            petalo.style.left = (Math.random() * 100) + 'vw';
+            
+            // Tamaños aleatorios para simular profundidad
+            const escala = (Math.random() * 0.8) + 0.5; 
+            
+            // Tiempos de caída aleatorios (entre 2 y 4 segundos)
+            const duración = (Math.random() * 2) + 2; 
+            
+            petalo.style.animationDuration = duración + 's';
+            petalo.style.transform = `scale(${escala})`;
+            
+            contenedorPetalos.appendChild(petalo);
+        }, i * 40); // Aparecen rápidamente uno tras otro (cada 40 milisegundos)
+    }
+
+    // 3. Teletransportar a Brenda después de 3.5 segundos
+    setTimeout(() => {
+        window.location.href = 'temporada2.html';
+    }, 3500);
+};

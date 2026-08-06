@@ -698,3 +698,99 @@ header.hero {
     text-transform: uppercase;
     transition: color 0.3s, transform 0.1s;
 }
+
+/* --- BOTÓN DE TRANSICIÓN A LA TEMPORADA 2 --- */
+#contenedor-transicion {
+    text-align: center;
+    margin: 50px 0;
+    padding-bottom: 50px;
+}
+
+#btn-medio-ano {
+    background: linear-gradient(135deg, #720026, #4a00e0); /* Degradado Vino a Violeta */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(74, 0, 224, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: latidoBoton 2s infinite;
+}
+
+#btn-medio-ano:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 25px rgba(114, 0, 38, 0.6);
+}
+
+@keyframes latidoBoton {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* --- LA PANTALLA DE TRANSICIÓN --- */
+#pantalla-transicion {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background: linear-gradient(135deg, #2b0014, #1a0033); /* Fondo súper oscuro y romántico */
+    z-index: 9999; /* Por encima de TODO */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out; /* Fade in suave */
+}
+
+#pantalla-transicion.activa {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#texto-transicion {
+    font-family: 'Pacifico', cursive;
+    color: #fbcfe8;
+    font-size: 2rem;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    z-index: 10;
+    animation: flotarTexto 2s infinite alternate ease-in-out;
+}
+
+@keyframes flotarTexto {
+    from { transform: translateY(0); }
+    to { transform: translateY(-15px); }
+}
+
+/* --- ANIMACIÓN DE PÉTALOS CSS --- */
+#lluvia-petalos {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.petalo-cae {
+    position: absolute;
+    width: 15px; 
+    height: 25px;
+    background: #e63946; /* Rojo pasión por defecto */
+    border-radius: 50% 0 50% 0; /* ¡Esto crea la forma de hoja/pétalo! */
+    opacity: 0.8;
+    top: -30px; /* Nacen fuera de la pantalla por arriba */
+    animation: caidaPetalo linear forwards;
+}
+
+.petalo-cae.morado {
+    background: #9d4edd; /* Tono violeta Army */
+    border-radius: 0 50% 0 50%; /* Invertimos la forma para que haya variedad */
+}
+
+@keyframes caidaPetalo {
+    0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1;}
+    100% { transform: translateY(110vh) rotate(360deg) translateX(150px); opacity: 0; }
+}

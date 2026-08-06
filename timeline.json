@@ -405,13 +405,5 @@
       "src": "img/cinnamorollFelicidades.png",
       "alt": "Cinnamoroll"
     }
-  },
-  {
-    "id": 19,
-    "posicion": "left",
-    "titulo": "Continuara...",
-    "texto": null,
-    "imagenes": [],
-    "personajeGif": null
   }
 ]
