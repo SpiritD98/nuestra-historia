@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medio Año Juntos ✨</title>
+    <!-- Asegúrate de enlazar el nuevo CSS -->
+    <link rel="stylesheet" href="style2.css">
+    <!-- LIBRERÍA DE ÍCONOS PARA EL BOTÓN PLAY -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- EL AUDIO ACÚSTICO DE FONDO -->
+    <audio id="audio-ambiente" loop>
+        <source src="music/like animals (guitar cover).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- SECCIÓN 1: EL FRASCO MÁGICO (Ocupa el 100% de la pantalla) -->
+    <section id="pantalla-bienvenida">
+        <h1 class="titulo-vino">Feliz Medio Año, Nubecita ❤️</h1>
+        <p class="instruccion-magica">Toca el frasco de cristal...</p>
+
+        <!-- Contenedor interactivo del frasco -->
+        <div id="zona-frasco" onclick="tocarFrasco()">
+            <!-- Consigue un PNG de un frasco vacío y ponlo aquí -->
+            <img src="img/frasco.png" id="img-frasco" alt="Frasco de los recuerdos">
+            
+            <!-- Aquí brotarán las estrellas -->
+            <div id="contenedor-estrellas"></div>
+        </div>
+
+        <!-- Botón para avanzar (Nace oculto) -->
+        <button id="btn-avanzar" class="oculto" onclick="irAAudios()">
+            Tengo algo que decirte... ✨
+        </button>
+    </section>
+
+    <!-- EL POP-UP DE LOS MENSAJES -->
+    <div id="modal-mensaje" class="oculto">
+        <div class="caja-mensaje">
+            <p id="texto-pop-up"></p>
+            <button class="btn-cerrar-modal" onclick="cerrarMensaje()">Guardar en el corazón</button>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2: LOS AUDIOS (Álbum de Polaroids) -->
+    <section id="pantalla-audios" style="display: none;">
+        <h2 class="titulo-vino" id="texto-album">Nuestro Camino ❤️</h2>
+        <p class="instruccion-magica" id="instruccion-album">Toca el álbum para abrirlo...</p>
+
+        <!-- Fondo oscuro que aparece al enfocar una foto -->
+        <div id="overlay-polaroid" onclick="cerrarPolaroid()"></div>
+
+        <!-- El contenedor principal -->
+        <div id="album-container" onclick="abrirAlbum()">
+            
+            <!-- Imagen del libro abierto (Base) -->
+            <!-- Consigue un PNG de un libro abierto tipo scrapbook -->
+            <img src="img/libro abierto.png" id="libro-abierto" alt="Libro Abierto">
+
+            <!-- LAS 6 POLAROIDS -->
+            <div class="polaroid-mes" id="polaroid-1" onclick="enfocarPolaroid(1, event)">
+                <div class="foto-container"><img src="img/tortaYRamo1Mes.jpg" alt="Mes 1"></div>
+                <div class="polaroid-footer">
+                    <span>Mes 1</span>
+                    <button class="btn-play" onclick="toggleAudio(1, event)">
+                        <i class="bi bi-play-circle" id="icono-audio-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="polaroid-mes" id="polaroid-2" onclick="enfocarPolaroid(2, event)">
+                <div class="foto-container"><img src="img/ramoSegundoMV.jpg" alt="Mes 2"></div>
+                <div class="polaroid-footer">
+                    <span>Mes 2</span>
+                    <button class="btn-play" onclick="toggleAudio(2, event)">
+                        <i class="bi bi-play-circle" id="icono-audio-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="polaroid-mes" id="polaroid-3" onclick="enfocarPolaroid(3, event)">
+                <div class="foto-container"><img src="img/3mesesPizzaCena.jpeg" alt="Mes 3"></div>
+                <div class="polaroid-footer">
+                    <span>Mes 3</span>
+                    <button class="btn-play" onclick="toggleAudio(3, event)">
+                        <i class="bi bi-play-circle" id="icono-audio-3"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="polaroid-mes" id="polaroid-4" onclick="enfocarPolaroid(4, event)">
+                <div class="foto-container"><img src="img/4tomesPing.png" alt="Mes 4"></div>
+                <div class="polaroid-footer">
+                    <span>Mes 4</span>
+                    <button class="btn-play" onclick="toggleAudio(4, event)">
+                        <i class="bi bi-play-circle" id="icono-audio-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="polaroid-mes" id="polaroid-5" onclick="enfocarPolaroid(5, event)">
+                <div class="foto-container"><img src="img/5toMesPizza.png" alt="Mes 5"></div>
+                <div class="polaroid-footer">
+                    <span>Mes 5</span>
+                    <button class="btn-play" onclick="toggleAudio(5, event)">
+                        <i class="bi bi-play-circle" id="icono-audio-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="polaroid-mes" id="polaroid-6" onclick="enfocarPolaroid(6, event)">
+                <div class="foto-container"><img src="img/juntosChaoTazita.jpg" alt="Mes 6"></div>
+                <div class="polaroid-footer">
+                    <span>Mes 6</span>
+                    <button class="btn-play" onclick="toggleAudio(6, event)">
+                        <i class="bi bi-play-circle" id="icono-audio-6"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- La Tapa del Álbum (Love Yourself Her) -->
+            <img src="img/love-yourself-her.webp" id="caja-tapa" alt="Love Yourself Her">
+        </div>
+
+        <!-- Reproductores ocultos -->
+        <audio id="audio-mes-1" src="music/1mes.aac" type="audio/aac" preload="auto"></audio>
+        <audio id="audio-mes-2" src="music/2mes.aac" type="audio/aac" preload="auto"></audio>
+        <audio id="audio-mes-3" src="music/3mes.aac" type="audio/aac" preload="auto"></audio>
+        <audio id="audio-mes-4" src="music/4mes.aac" type="audio/aac" preload="auto"></audio>
+        <audio id="audio-mes-5" src="music/5mes.aac" type="audio/aac" preload="auto"></audio>
+        <audio id="audio-mes-6" src="music/6mes.aac" type="audio/aac" preload="auto"></audio>
+    
+        <!-- Este botón va al final de la pantalla-audios -->
+        <button id="btn-final" style="display: none;"  onclick="irAlFinal()">Descubrir nuestro regalo final ✨</button>
+    </section>
+
+    <!-- SECCIÓN 3: EL RASPA Y GANA -->
+    <section id="pantalla-final" style="display: none;">
+        <h2 class="titulo-vino">Lo que nunca se perderá 💜</h2>
+        <p class="instruccion-magica">Raspa el polvo de estrellas con tu dedo...</p>
+
+        <div id="raspa-container">
+            <!-- Asegúrate de tener una imagen llamada foto-recuperada.jpg en tu carpeta img -->
+            <img src="img/larcomar03.png" id="foto-oculta" alt="Nuestro mejor recuerdo">
+            
+            <!-- EL LIENZO QUE CUBRE LA FOTO -->
+            <canvas id="lienzo-raspa"></canvas>
+        </div>
+
+        <h3 id="mensaje-final-amor" class="oculto">¡Felices 6 Meses, mi Nubecita! Te amo infinitamente.</h3>
+
+        <!-- NUEVO: Botón para regresar a la línea de tiempo original -->
+        <button id="btn-volver" class="oculto" onclick="volverAlInicio()">Volver a nuestra historia 🕰️</button>
+    </section>
+
+    <script src="script2.js"></script>
+</body>
+</html>

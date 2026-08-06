@@ -356,13 +356,19 @@
     "id": 18,
     "posicion": "right",
     "titulo": "3 meses!☁️",
-    "texto": "Y ya son 3 meses juntos, amor. Espero de verdad que te haya gustado todo lo que hice para ti; este pequeño recuento de tantos momentos bonitos que hemos vivido en tan poco tiempo. Gracias por cada risa, cada abrazo, cada salida improvisada y cada momento a tu lado. Gracias por existir y por dejarme amar a una persona tan maravillosa como tú. Te amo muchísimo, mi niña, mi nubecita, mi princesita hermosa, mi algodoncito de azúcar. Y sinceramente… quiero seguir creando recuerdos contigo por muchísimo tiempo más.",
+    "texto": "Tres meses a tu lado… y nunca había disfrutado tanto ver pasar el tiempo. Has despertado en mí las ganas de crear cosas con mis propias manos para hacerte feliz: esta página, nuestras salidas, la carta que te escribí… pequeños pedacitos de mi corazón para ti. Espero que todo te haya gustado, mi nubecita. Porque si algo tengo claro es que esto apenas comienza. Te amo muchísimo.",
     "imagenes": [
       {
-        "src": "img/cineBTS.jpg",
-        "width": "2252",
-        "height": "4000",
-        "alt": "Juntos"
+        "src": "img/3mesesPizzaCena.jpeg",
+        "width": "482",
+        "height": "861",
+        "alt": "3meses"
+      },
+      {
+        "src": "img/3mesescarta.jpeg",
+        "width": "720",
+        "height": "1280",
+        "alt": "3meses"
       }
     ],
     "personajeGif": {
@@ -371,16 +377,16 @@
     }
   },
   {
-    "id": 17,
+    "id": 19,
     "posicion": "left",
-    "titulo": "¡4 meses juntos! 🤍",
-    "texto": "Y ya son 4 meses juntos, mi amor. Curiosamente, estos meses se sintieron más largos que los primeros, quizá porque ya no podemos vernos tan seguido. Pero eso solo hace que cada vez que estamos juntos la disfrute muchísimo más. Algo que amo es seguir llenando esta página con cada una de nuestras salidas, nuestros viajes, nuestras risas y todos esos pequeños momentos que, contigo, terminan convirtiéndose en recuerdos inolvidables. Espero que esta historia siga creciendo por muchísimo tiempo más, porque mi lugar favorito siempre será a tu lado. ☁️",
+    "titulo": "¡Y llegó tu cumpleaños, mi amor! 🎂💜",
+    "texto": "12 de mayo, el cumpleaños de la taurina de mi vida. Aunque no pudimos celebrarlo como se debía, ese día fue muy especial: compartimos un jugo de maracuyá con tapioca, esa torta tan rica que mi suegra te dio (que sigo sin olvidar :9) y, además, hablaste con mi madre por primera vez. Creo que estabas un poquito nerviosa… pero al final todo salió muy bonito, igual que tú. ☁️",
     "imagenes": [
       {
-        "src": "img/pinMangInge.png",
-        "width": "1149",
-        "height": "1369",
-        "alt": "Hoy"
+        "src": "img/maracuyaTapiocaCum.jpeg",
+        "width": "2252",
+        "height": "4000",
+        "alt": "cumple"
       }
     ],
     "personajeGif": {
@@ -389,16 +395,22 @@
     }
   },
   {
-    "id": 18,
+    "id": 20,
     "posicion": "right",
-    "titulo": "Y hoy, finalmente… ¡5 meses a tu lado! ☁️🤍",
-    "texto": "Cómo pasan los meses… los días y las horas a tu lado siempre se van demasiado rápido. Amo verte, tenerte conmigo, acompañarte y estar para ti en cada momento que la vida nos regala. Hemos tenido días muy bonitos y otros un poco más difíciles, y sé que seguramente no será la última vez. Pero también sé que siempre encontraremos la manera de entendernos, mejorar y seguir adelante, porque te amo de verdad. Hoy no puedo imaginar mi vida sin ti, sin escucharte, sin abrazarte, sin viajar contigo y sin seguir creando recuerdos juntos. Moche, Lima, Ica, Virú… cada lugar ha sido especial, no por el destino, sino porque tú estabas ahí. Y estoy seguro de que, sin importar si vienen momentos buenos, malos o maravillosos, mientras estemos juntos siempre encontraremos la forma de hacerlos inolvidables. Te amo con todo mi corazón, mi niña. Y sí… esto era lo que estuve haciendo durante todo el fin de semana y por lo que andaba tan ocupado. Espero que cada detalle te recuerde lo inmensamente feliz que soy de compartir mi vida contigo.",
+    "titulo": "Un fin de semana para celebrar ☁️",
+    "texto": "Ese fin de semana celebramos como realmente merecías. Nos hospedamos juntos, disfrutamos de una parrilla riquísima y por fin pude regalarte tu ramo favorito de astromelias naranjas. Y claro… también estaba la caja explosiva que hice para ti. Me tomó muchísimo tiempo, pero ver tu carita al abrirla y saber que te gustó hizo que cada minuto hubiera valido completamente la pena.",
     "imagenes": [
       {
-        "src": "img/BrenDanIA.jpeg",
-        "width": "1103",
-        "height": "1426",
-        "alt": "Juntos"
+        "src": "img/ramoCumple.png",
+        "width": "530",
+        "height": "937",
+        "alt": "FinSem"
+      },
+      {
+        "src": "img/CajaExplosivaCumpl.png",
+        "width": "482",
+        "height": "862",
+        "alt": "FinSem"
       }
     ],
     "personajeGif": {
@@ -407,11 +419,93 @@
     }
   },
   {
-    "id": 19,
+    "id": 21,
     "posicion": "left",
-    "titulo": "Continuara...",
-    "texto": null,
-    "imagenes": [],
-    "personajeGif": null
+    "titulo": "4 meses! ☁️🤍",
+    "texto": "Ya son cuatro meses juntos, mi amor. Seguimos llenando nuestra historia de salidas, viajes a Chao y momentos en los que solo quería estar contigo, especialmente cuando más me necesitabas. Y este mes pude darte el pin de Mang que diseñé para ti. No sabes lo feliz que me hizo verte usarlo en tu trabajo y saber que te gustó. Te amo muchísimo, mi nubecita… y sé que este es solo un mes más de todos los que aún nos esperan juntos. 💜",
+    "imagenes": [
+      {
+        "src": "img/4tomesPing.png",
+        "width": "650",
+        "height": "1158",
+        "alt": "4meses"
+      },
+      {
+        "src": "img/pingUsadoElla.jpeg",
+        "width": "1600",
+        "height": "900",
+        "alt": "4meses"
+      }
+    ],
+    "personajeGif": {
+      "src": "img/MangArmyBomb.png",
+      "alt": "Mang BT21"
+    }
+  },
+  {
+    "id": 21,
+    "posicion": "right",
+    "titulo": "Un domingo contigo 🧢🤍",
+    "texto": "28 de junio, un domingo. Antes de conocerte jamás me gustaba planear salidas, menos los domingos; era feliz quedándome en casa. Pero contigo salí de mi zona de confort… y descubrí que mi lugar y dia favorito es cualquiera donde estés tú. Y ese día me regalaste esta gorrita tan suave y bonita. La amo por lo que es, pero aún más porque viene de ti. Prometo usarla siempre que el frío nos dé una excusa para recordarte un poquito más. ☁️🤍",
+    "imagenes": [
+      {
+        "src": "img/gorraTejidoRegalo.jpeg",
+        "width": "921",
+        "height": "1600",
+        "alt": "gorraRegalo"
+      }
+    ],
+    "personajeGif": {
+      "src": "img/MangArmyBomb.png",
+      "alt": "Mang BT21"
+    }
+  },
+  {
+    "id": 22,
+    "posicion": "left",
+    "titulo": "¡5to mes con mi reina! 🍕🤍",
+    "texto": "Cinco meses junto al amor de mi vida. Y qué mejor forma de celebrarlo que con esas pizzas que tanto me encantan. Antes de conocerte no había ninguna en Trujillo que me convenciera… pero desde que las probé contigo uff ya no tienen nada que envidiarles a las de Lima. Hemos vivido momentos muy bonitos, otros más difíciles, pero siempre hemos sabido salir adelante, de la mano. Te amo demasiado, mi Brenda Alisson. Y cada día estoy más seguro de que quiero seguir escribiendo esta historia contigo. ☁️",
+    "imagenes": [
+      {
+        "src": "img/5toMesJuntos.jpeg",
+        "width": "1600",
+        "height": "900",
+        "alt": "5toMes"
+      },
+      {
+        "src": "img/5toMesPizza.png",
+        "width": "685",
+        "height": "1162",
+        "alt": "5toMes"
+      }
+    ],
+    "personajeGif": {
+      "src": "img/cinnamorollFelicidades.png",
+      "alt": "Cinnamoroll"
+    }
+  },
+  {
+    "id": 23,
+    "posicion": "right",
+    "titulo": "¡La Tazita! 🍔🤍",
+    "texto": "Chao no deja de sorprenderme. Primero la pizza, luego el pollo a la brasa… ¡y ahora esas hamburguesas! Qué ricas. Y tú hasta te diste cuenta de por qué me encantan: cumplen con las 3B :9 Ya falta muy poco para cumplir medio año juntos. Uff… cuánto hemos vivido. Hemos reído, llorado, discutido, aprendido y también dejado atrás cosas que hoy ya no queremos cargar. Lo único que tengo claro es que te amo con todo mi corazón y quiero seguir caminando esta vida contigo. Te amo, mi niña. Y espero que los mejores momentos para nosotros todavía estén por venir. ☁️🤍",
+    "imagenes": [
+      {
+        "src": "img/latacitaChao.jpg",
+        "width": "4000",
+        "height": "2252",
+        "alt": "tazita"
+      },
+      {
+        "src": "img/juntosChaoTazita.jpg",
+        "width": "1620",
+        "height": "2400",
+        "alt": "tazita"
+      }
+    ],
+    "personajeGif": {
+      "src": "img/MangArmyBomb.png",
+      "alt": "Mang BT21"
+    }
   }
 ]

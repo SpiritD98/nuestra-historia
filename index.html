@@ -126,6 +126,13 @@
             <!--El contenido se inyectara dinamicamente con JS-->>
         </div>
 
+        <!-- REEMPLAZA EL "CONTINUARÁ..." CON ESTO -->
+        <div id="contenedor-transicion">
+            <button id="btn-medio-ano" onclick="transicionMedioAno()">
+                Desbloquear Medio Año ✨
+            </button>
+        </div>
+
         <!-- Botón centrado al final de la línea de tiempo -->
         <div style="text-align: center; margin: 40px 0; padding-bottom: 50px;">
             <button onclick="mostrarRazon()" class="btn-razones">
@@ -153,5 +160,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.2/umd/photoswipe.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.2/umd/photoswipe-lightbox.umd.min.js"></script>
     <script type="module" src="script.js"></script>
+
+    <!-- ESTE BLOQUE VA AL FINAL DE TU CÓDIGO, JUSTO ANTES DE </body> -->
+    <div id="pantalla-transicion" class="oculta">
+        <!-- Aquí caerán los pétalos -->
+        <div id="lluvia-petalos"></div>
+        
+        <!-- Mensaje de intriga -->
+        <h2 id="texto-transicion">Llevándote a nuestro siguiente capítulo...</h2>
+    </div>
 </body>
 </html>

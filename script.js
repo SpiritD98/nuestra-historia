@@ -240,7 +240,8 @@ window.startExperience = function() {
     
     // 3. Preparamos el timeline y la música
     const main = document.getElementById('main-story');
-    main.classList.add('visible');
+    main.style.display = 'block';
+    main.style.opacity = '0';
     
     const audio = document.getElementById('musica-fondo');
     const btnMusica = document.getElementById('btn-musica');
@@ -257,6 +258,11 @@ window.startExperience = function() {
     // 4. El toque mágico: Esperamos 2.5 segundos para que aprecie el collage...
     // ...y luego deslizamos la pantalla hacia abajo suavemente
     setTimeout(() => {
+        main.classList.add('visible');
+
+        main.style.transition = 'opacity 2s ease-in-out';
+        main.style.opacity = '1';
+
         window.scrollTo({
             top: window.innerHeight, // Hace scroll exactamente una pantalla hacia abajo
             behavior: 'smooth'
@@ -383,28 +389,50 @@ window.presionarTecla = function(letra) {
     const contenedor = document.getElementById('flores-generadas');
     const rutaImagen = obtenerFlorPorLetra(letra);
 
-    // 1. Crear la imagen de la flor
     const nuevaFlor = document.createElement('img');
     nuevaFlor.src = rutaImagen;
     nuevaFlor.className = 'flor-teclado';
     
-    // Posición inicial oculta y pequeña
+    // Nace oculta y pequeña
     nuevaFlor.style.transform = `translate(0px, 40px) scale(0) rotate(0deg)`;
-    
-    // La inyectamos en el HTML
     contenedor.appendChild(nuevaFlor);
-    floresEnRamo.push(nuevaFlor); // Guardamos en el historial
+    
+    // --- LA MAGIA DEL ABANICO (Distribución pre-calculada) ---
+    const index = floresEnRamo.length;
+    
+    // Coordenadas diseñadas a mano para crear un ramo perfecto (X, Y, Rotación)
+    // Especialmente calibrado para las 8 letras de NUBECITA
+    const posicionesAbanico = [
+        { x: -25, y: -20, rot: -15 }, // 0 (N) - Izquierda
+        { x: 25, y: -20, rot: 15 },   // 1 (U) - Derecha
+        { x: -15, y: -20, rot: -5 },  // 2 (B) - Centro Izq, más alta
+        { x: 15, y: -20, rot: 5 },    // 3 (E) - Centro Der, más alta
+        { x: -25, y: -5, rot: -25 },  // 4 (C) - Extremo Izq, más baja
+        { x: 25, y: -5, rot: 25 },    // 5 (I) - Extremo Der, más baja
+        { x: 0, y: -25, rot: 0 },     // 6 (T) - Centro exacto, en la cima
+        { x: 0, y: -10, rot: (Math.random() * 10 - 5) } // 7 (A) - Relleno central inferior
+    ];
 
-    // 2. Matemáticas para el desorden orgánico del ramo
-    // (Math.random() - 0.5) genera números positivos y negativos
-    const offsetX = (Math.random() - 0.5) * 70;  // Se mueve entre -40px y 40px a los lados
-    const rotacion = (offsetX * 0.6) + ((Math.random() - 0.5) * 20); // Rota entre -25 y 25 grados
-    const offsetY = (Math.random() * -45);       // Sube aleatoriamente hasta 30px
+    let offsetX, offsetY, rotacion;
 
-    // 3. Forzamos al navegador a leer el CSS para que la transición funcione
+    // Si está dentro de las primeras 8 letras, usa el mapa perfecto
+    if (index < posicionesAbanico.length) {
+        offsetX = posicionesAbanico[index].x;
+        offsetY = posicionesAbanico[index].y;
+        rotacion = posicionesAbanico[index].rot;
+    } else {
+        // Si sigue escribiendo más de 8 letras, usa un azar controlado
+        offsetX = (Math.random() - 0.5) * 80; 
+        rotacion = offsetX * 0.5; 
+        offsetY = (Math.random() * -30) - 10;
+    }
+
+    floresEnRamo.push(nuevaFlor);
+
+    // Forzamos al navegador a leer el CSS
     nuevaFlor.getBoundingClientRect(); 
 
-    // 4. Aplicamos la posición final (Brotar)
+    // Aplicamos la posición final 
     nuevaFlor.style.opacity = "1";
     nuevaFlor.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1) rotate(${rotacion}deg)`;
 };
@@ -497,3 +525,45 @@ function escribirCarta() {
         }
     }, 60); // 60ms por letra. (Hazlo más pequeño si quieres que escriba más rápido)
 }
+
+// --- TRANSICIÓN A LA TEMPORADA 2 ---
+window.transicionMedioAno = function() {
+    // 1. Mostrar la pantalla de fondo oscuro
+    const pantalla = document.getElementById('pantalla-transicion');
+    pantalla.classList.add('activa');
+
+    // 2. Generar la ráfaga de pétalos
+    const contenedorPetalos = document.getElementById('lluvia-petalos');
+    
+    // Creamos 60 pétalos para una lluvia tupida
+    for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+            const petalo = document.createElement('div');
+            petalo.classList.add('petalo-cae');
+            
+            // 50% de probabilidad de que sea rojo o morado
+            if (Math.random() > 0.5) {
+                petalo.classList.add('morado');
+            }
+
+            // Posicionamiento horizontal aleatorio a lo ancho de la pantalla
+            petalo.style.left = (Math.random() * 100) + 'vw';
+            
+            // Tamaños aleatorios para simular profundidad
+            const escala = (Math.random() * 0.8) + 0.5; 
+            
+            // Tiempos de caída aleatorios (entre 2 y 4 segundos)
+            const duración = (Math.random() * 2) + 2; 
+            
+            petalo.style.animationDuration = duración + 's';
+            petalo.style.transform = `scale(${escala})`;
+            
+            contenedorPetalos.appendChild(petalo);
+        }, i * 40); // Aparecen rápidamente uno tras otro (cada 40 milisegundos)
+    }
+
+    // 3. Teletransportar a Brenda después de 3.5 segundos
+    setTimeout(() => {
+        window.location.href = 'temporada2.html';
+    }, 3500);
+};

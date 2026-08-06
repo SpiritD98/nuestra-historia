@@ -1,0 +1,478 @@
+/* --- RESET Y VARIABLES --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --vino-oscuro: #2b0014;
+    --violeta-army: #4a00e0;
+    --rosa-claro: #fbcfe8;
+}
+
+/* --- 1. ENTRADA SUAVE DE LA PÁGINA --- */
+body {
+    background: linear-gradient(135deg, var(--vino-oscuro), #1a0033);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    /* Animación de entrada */
+    opacity: 0;
+    animation: aparecerPagina 2s ease-in forwards; 
+}
+
+@keyframes aparecerPagina {
+    from { opacity: 0; filter: blur(10px); }
+    to { opacity: 1; filter: blur(0px); }
+}
+
+/* --- SECCIÓN 1: BIENVENIDA --- */
+#pantalla-bienvenida {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.titulo-vino {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    color: var(--rosa-claro);
+    text-shadow: 0 0 15px rgba(251, 207, 232, 0.5);
+    margin-bottom: 10px;
+}
+
+.instruccion-magica {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    animation: parpadeo 2s infinite alternate;
+}
+
+@keyframes parpadeo {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+/* --- LLUVIA DE ESTRELLAS DE FONDO --- */
+#estrellas-fondo {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; /* Para que no bloqueen los clics al frasco */
+    overflow: hidden;
+    z-index: 0; /* Bien al fondo */
+}
+
+.estrella-fugaz {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: white;
+    box-shadow: 0 0 5px #fbcfe8, 0 0 10px #9d4edd; /* Brillo rosado/morado */
+    border-radius: 50%;
+    animation: caerEstrella linear infinite;
+}
+
+@keyframes caerEstrella {
+    0% { transform: translateY(-10px) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(100vh) translateX(50px); opacity: 0; }
+}
+
+/* --- EL FRASCO INTERACTIVO --- */
+#zona-frasco {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#zona-frasco:active { transform: scale(0.95); }
+
+#img-frasco {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(74, 0, 224, 0.4));
+}
+
+#contenedor-estrellas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; /* Para no bloquear el clic al frasco */
+}
+
+/* --- 2. ESFERAS MÁS LENTAS Y CLICKEABLES --- */
+.estrella {
+    position: absolute;
+    width: 30px; height: 30px; /* Un poquito más grandes para que sea fácil darles clic */
+    background: radial-gradient(circle, #fff, #9d4edd);
+    border-radius: 50%;
+    box-shadow: 0 0 15px #9d4edd;
+    cursor: pointer;
+    pointer-events: all; 
+    z-index: 100; /* Aseguramos que nada las bloquee */
+    /* Tiempo aumentado de 4s a 9s para que floten lento */
+    animation: flotarArriba 9s forwards ease-in-out; 
+}
+
+@keyframes flotarArriba {
+    0% { transform: scale(0) translateY(100px); opacity: 1; }
+    10% { transform: scale(1.2) translateY(50px); }
+    100% { transform: scale(1) translateY(-500px); opacity: 0; }
+}
+
+/* --- 3. EFECTO FUEGO ARTIFICIAL (CHISPAS) --- */
+.chispa {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: #fbcfe8;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 8px #fff, 0 0 15px #9d4edd;
+    animation: explotarChispa 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    z-index: 150;
+}
+
+@keyframes explotarChispa {
+    0% { transform: scale(1) translate(0, 0); opacity: 1; }
+    100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; }
+}
+
+/* --- EL BOTÓN DE TRANSICIÓN --- */
+#btn-avanzar {
+    margin-top: 50px;
+    padding: 15px 30px;
+    border-radius: 25px;
+    border: 1px solid var(--rosa-claro);
+    background: transparent;
+    color: var(--rosa-claro);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 1.5s ease, background 0.3s, color 0.3s;
+}
+
+#btn-avanzar:hover { background: var(--rosa-claro); color: var(--vino-oscuro); }
+.oculto { display: none !important; }
+
+/* --- MODAL (POP-UP) --- */
+#modal-mensaje {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; /* <-- EL CAMBIO CLAVE: 100vh para que ocupe solo la pantalla visible */
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity 0.3s;
+}
+
+#modal-mensaje.activo { opacity: 1; pointer-events: all; }
+
+.caja-mensaje {
+    background: linear-gradient(135deg, rgba(74, 0, 224, 0.2), rgba(43, 0, 20, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px; border-radius: 20px;
+    text-align: center; max-width: 80%;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+#texto-pop-up {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.8rem; color: white; margin-bottom: 20px;
+}
+
+.btn-cerrar-modal {
+    padding: 10px 20px; border: none; border-radius: 15px;
+    background: var(--violeta-army); color: white; cursor: pointer;
+}
+
+
+/* --- SECCIÓN 2: EL ÁLBUM Y LAS POLAROIDS --- */
+#pantalla-audios { 
+    height: 100vh; width: 100%; 
+    display: flex; flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start; /* Cambiamos a flex-start para controlar desde arriba */
+    padding-top: 8vh; /* Un respiro desde el techo de la pantalla */
+    text-align: center; overflow: hidden;
+}
+
+#album-container {
+    position: relative;
+    /* Proporción exacta para tu imagen de 349x512 (tipo retrato) */
+    width: 240px; 
+    height: 350px; 
+    margin: 130px auto 0 auto; /* Lo empuja hacia abajo separándolo del título */
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    /* Agregamos esto para subir el álbum solo en PC */
+    #album-container {
+        margin-top: 90px; /* Reducimos el margen para que suba más */
+    }
+}
+
+/* El Libro Abierto */
+#libro-abierto {
+    position: absolute;
+    bottom: 80px; left: -10%; 
+    width: 120%; 
+    opacity: 0;
+    transition: opacity 1s 0.5s ease;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
+}
+
+#caja-tapa {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; border-radius: 5px;
+    z-index: 20;
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1s;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+}
+
+/* --- DISEÑO POLAROID MEJORADO --- */
+.polaroid-mes {
+    position: absolute;
+    top: 50%; left: 50%;
+    /* Hicimos las tarjetas más grandes de base */
+    width: 120px; height: 150px; 
+    margin-top: -75px; margin-left: -60px; /* Centrado matemático */
+    background: #f8f8f8;
+    padding: 8px 8px 15px 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    z-index: 5; opacity: 0; pointer-events: none;
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; flex-direction: column; justify-content: space-between;
+}
+
+.foto-container {
+    width: 100%; height: 55%; /* 65% para foto, 35% para título y botón */
+    overflow: hidden;
+    background: #111;
+    border-radius: 2px;
+}
+
+.foto-container img {
+    width: 100%; height: 100%; 
+    /* cover obliga a la foto a llenar el espacio sin aplastarse */
+    object-fit: cover; 
+    object-position: center;
+}
+
+/* --- EL NUEVO FOOTER (Texto arriba, Botón abajo) --- */
+.polaroid-footer {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    height: 45%; /* Más espacio disponible abajo */
+    gap: 3px; /* Separación perfecta entre título y botón */
+}
+
+.polaroid-footer span {
+    font-family: 'Pacifico', cursive;
+    color: #333; 
+    font-size: 1.1rem;
+    margin-top: 5px; /* Empuja el texto hacia abajo para que no toque la foto */
+    line-height: 1;
+}
+
+.btn-play {
+    background: none; border: none;
+    font-size: 1.6rem; /* Botón un poquito más pequeño para no ahogar el espacio */
+    color: #111; cursor: pointer;
+    transition: transform 0.2s, color 0.3s;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+}
+
+.btn-play:hover { transform: scale(1.15); color: var(--violeta-army); }
+
+/* --- ANIMACIONES DE APERTURA (Reajustadas al nuevo tamaño de la caja) --- */
+#album-container.abierto #caja-tapa {
+    transform: translateY(-200px) scale(1.1);
+    opacity: 0; pointer-events: none;
+}
+
+#album-container.abierto #libro-abierto { opacity: 1; }
+#album-container.abierto .polaroid-mes { opacity: 1; pointer-events: all; }
+
+/* --- POSICIONES PARA CELULARES (Más agrupadas pero sin tapar el texto) --- */
+#album-container.abierto #polaroid-1 { transform: translate(-80px, -140px) rotate(-15deg); }
+#album-container.abierto #polaroid-2 { transform: translate(0px, -160px) rotate(-5deg); }
+#album-container.abierto #polaroid-3 { transform: translate(80px, -140px) rotate(12deg); }
+#album-container.abierto #polaroid-4 { transform: translate(-70px, -20px) rotate(-8deg); }
+#album-container.abierto #polaroid-5 { transform: translate(0px, -5px) rotate(-2deg); }
+#album-container.abierto #polaroid-6 { transform: translate(70px, -20px) rotate(18deg); }
+
+/* --- POSICIONES PARA PANTALLAS GRANDES (Tu dibujo horizontal) --- */
+@media (min-width: 768px) {
+    #album-container.abierto #polaroid-1 { transform: translate(-280px, -150px) rotate(-15deg); }
+    #album-container.abierto #polaroid-2 { transform: translate(-170px, -180px) rotate(-5deg); }
+    #album-container.abierto #polaroid-3 { transform: translate(-60px, -200px) rotate(2deg); }
+    #album-container.abierto #polaroid-4 { transform: translate(60px, -200px) rotate(8deg); }
+    #album-container.abierto #polaroid-5 { transform: translate(170px, -180px) rotate(15deg); }
+    #album-container.abierto #polaroid-6 { transform: translate(280px, -150px) rotate(22deg); }
+}
+
+/* --- EL ACERCAMIENTO (FOCUS) --- */
+.polaroid-mes.enfocada {
+    /* Como la foto base ya es grande, bajamos la escala a 2.2 para que no se desborde */
+    transform: translate(0, -60px) scale(2.2) !important; 
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+    cursor: default;
+}
+
+/* --- OVERLAY OSCURO --- */
+#overlay-polaroid {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    z-index: 900; opacity: 0; pointer-events: none;
+    transition: opacity 0.5s;
+}
+#overlay-polaroid.activo { opacity: 1; pointer-events: all; }
+
+
+/* --- BOTÓN PARA IR AL FINAL --- */
+#btn-final {
+    /* Top en auto para bajar, lados en auto para centrar, abajo 20px de respiro */
+    margin: auto auto 100px auto; 
+    align-self: center; /* Fuerza el centrado en el contenedor flex */
+    
+    padding: 12px 30px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, var(--violeta-army), var(--vino-oscuro));
+    color: white;
+    border: 1px solid var(--rosa-claro);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(74, 0, 224, 0.4);
+    z-index: 50;
+    
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease, scale 0.3s;
+}
+
+#btn-final:hover { transform: scale(1.05); }
+
+/* --- AJUSTE DEL BOTÓN FINAL PARA PANTALLAS GRANDES (PC) --- */
+@media (min-width: 768px) {
+    #btn-final {
+        /* Reemplazamos el 'auto' por una distancia fija para acercarlo al libro */
+        margin-top: -80px; 
+    }
+}
+
+/* --- SECCIÓN 3: EL RASPA Y GANA --- */
+#pantalla-final {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; 
+    /* CAMBIO: Reducimos drásticamente el padding superior de 8vh a 3vh */
+    padding-top: 3vh; 
+    text-align: center;
+    background: linear-gradient(135deg, #11001c, var(--vino-oscuro)); 
+}
+
+/* NUEVO: Forzamos al título a perder sus márgenes invisibles del navegador */
+#pantalla-final .titulo-vino {
+    margin-top: 0;
+    margin-bottom: 5px; /* Lo acercamos más al subtítulo */
+}
+
+/* NUEVO: Reducimos el espacio debajo de las instrucciones */
+#pantalla-final .instruccion-magica {
+    margin-bottom: 15px; 
+}
+
+#raspa-container {
+    position: relative;
+    width: 300px;
+    height: 370px;
+    /* CAMBIO: Reducimos el margen de arriba (10px) y aumentamos el de abajo (25px) */
+    margin: 10px auto 25px auto; 
+    border-radius: 12px;
+    overflow: hidden; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+    border: 3px solid var(--rosa-claro);
+}
+
+#foto-oculta {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 1; /* Está abajo */
+}
+
+#lienzo-raspa {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 2; /* Cubre la foto */
+    cursor: pointer;
+    transition: opacity 1.5s ease-out; /* Desvanecimiento mágico al final */
+}
+
+#mensaje-final-amor {
+    font-family: 'Pacifico', cursive;
+    color: #fbcfe8;
+    font-size: 1.8rem;
+    padding: 0 20px;
+    text-shadow: 0 0 10px rgba(251, 207, 232, 0.6);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 2.5s ease-in-out;
+}
+
+#mensaje-final-amor.revelado {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* NUEVO: Botón para volver */
+#btn-volver {
+    margin-top: 20px;
+    padding: 10px 25px;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--rosa-claro);
+    border: 1px solid var(--rosa-claro);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 2s ease-in-out;
+}
+
+#btn-volver:hover {
+    background: var(--rosa-claro);
+    color: var(--vino-oscuro);
+}
+
+#btn-volver.revelado {
+    opacity: 1;
+    transform: translateY(0);
+}
